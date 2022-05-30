@@ -1,14 +1,33 @@
+using MassTransit;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var massTransitConfig = builder.Configuration.GetSection("MassTransit");
+
+// MassTraansit configuration
+builder.Services.AddMassTransit(x =>
+{
+   
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(massTransitConfig["Host"],
+            h =>
+            {
+                h.Username(massTransitConfig["Username"]);
+                h.Password(massTransitConfig["Password"]);
+            }
+        );
+        cfg.ConfigureEndpoints(context);
+    });
+});
+builder.Services.AddMassTransitHostedService();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseDeveloperExceptionPage();
 }
 
 

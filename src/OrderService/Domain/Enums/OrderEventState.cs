@@ -1,6 +1,6 @@
 ﻿namespace OrderService.Domain.Enums;
 
-public enum OrderState: byte
+public enum OrderEventState: byte
 {
     Submitted = 0,
     Created = 1,

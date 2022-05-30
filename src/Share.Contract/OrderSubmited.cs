@@ -1,5 +1,5 @@
 ﻿namespace Share.Contract;
-public class Class1
+public interface OrderSubmited
 {
 
 }

@@ -16,7 +16,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
         var order = new Order
         {
             Id = request.OrderId,
-            ProductId = request.ProductId,
+            Price = request.Price,
             UserId = request.UserId,
             OrderDate = DateTime.UtcNow
         };

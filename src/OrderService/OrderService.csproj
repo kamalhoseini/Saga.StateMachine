@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Orders\EventHandlers\" />
     <Folder Include="Infrastructure\Persistence\Migrations\" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
-﻿namespace Share.Contract;
+﻿namespace Share.Contract.Messages;
 public interface IOrderRejected
 {
     Guid CorrelationId { get; }
     public Guid OrderId { get; }
-    public Guid UserId { get; }
+    public string? Reason { get; }
 }

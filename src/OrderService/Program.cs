@@ -3,6 +3,7 @@ using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Interfaces;
+using OrderService.Application.Orders.EventHandlers;
 using OrderService.Infrastructure.Persistence;
 using OrderService.Saga;
 using System.Reflection;
@@ -20,6 +21,9 @@ var massTransitConfig = builder.Configuration.GetSection("MassTransit");
 // MassTraansit configuration
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<OrderCompletedEventHandler>();
+    x.AddConsumer<OrderRejectedEventHandler>();
+
     x.AddSagaStateMachine<OrderStateMachine, OrderState>()
     .EntityFrameworkRepository(repo =>
      {

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrderService.Application.Orders.Commands;
+using OrderService.Application.Orders.Commands.CreateOrder;
+using OrderService.Application.Orders.Commands.DeleteOrder;
 
 namespace OrderService.Controllers;
 
@@ -13,7 +14,12 @@ public class OrderController : ControllerBase
     {
         _mediator = mediator;
     }
+
     [HttpPost("CreateOrder")]
     public async Task<ActionResult<Guid>> CreateOrder([FromBody] CreateOrderCommand command)
       => Ok(await _mediator.Send(command));
+
+    [HttpDelete("DeleteOrder")]
+    public async Task<ActionResult> DeleteOrder([FromBody] DeleteOrderCommand command)
+     => Ok(await _mediator.Send(command));
 }

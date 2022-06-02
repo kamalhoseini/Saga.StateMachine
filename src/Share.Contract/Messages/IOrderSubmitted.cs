@@ -2,7 +2,7 @@
 public interface IOrderSubmitted
 {
     Guid CorrelationId { get; }
-    public Guid OrderId { get; }
-    public int Price { get; }
-    public Guid UserId { get; }
+    public Guid OrderId { get; set; }
+    public int Price { get; set; }
+    public Guid UserId { get; set; }
 }

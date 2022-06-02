@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Interfaces;
 using OrderService.Domain.Entities;
+using OrderService.Saga;
 
 namespace OrderService.Infrastructure.Persistence;
 
@@ -10,6 +11,7 @@ public class OrderContext : DbContext, IOrderContext
     : base(options)
     { }
     public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderState> OrderStates => Set<OrderState>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -1,4 +1,6 @@
-﻿namespace OrderService.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace OrderService.Domain.Entities;
 
 public class Order
 {

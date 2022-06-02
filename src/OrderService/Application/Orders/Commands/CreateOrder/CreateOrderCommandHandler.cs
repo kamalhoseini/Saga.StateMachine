@@ -4,9 +4,9 @@ using OrderService.Application.Interfaces;
 using OrderService.Domain.Entities;
 using Share.Contract.Messages;
 
-namespace OrderService.Application.Orders.Commands;
+namespace OrderService.Application.Orders.Commands.CreateOrder;
 
-public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
+internal class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
 {
     private readonly IOrderContext _context;
     private readonly IPublishEndpoint _publishEndpoint;
@@ -29,11 +29,11 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
         await _context.SaveChangesAsync(cancellationToken);
 
         await _publishEndpoint.Publish<IOrderSubmitted>(new
-              {
-                  OrderId = request.OrderId,
-                  UserId = request.UserId,
-                  Price = request.Price
-              });
+        {
+            request.OrderId,
+            request.UserId,
+            request.Price
+        });
 
         return order.Id;
     }

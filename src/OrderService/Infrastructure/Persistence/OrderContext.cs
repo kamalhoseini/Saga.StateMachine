@@ -15,12 +15,7 @@ public class OrderContext : DbContext, IOrderContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.LogTo(Console.WriteLine);
+       // optionsBuilder.LogTo(Console.WriteLine);
     }
-
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return await base.SaveChangesAsync(cancellationToken);
-    }
+   
 }

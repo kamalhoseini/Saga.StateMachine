@@ -7,10 +7,10 @@ public class OrderSubmitted : IOrderSubmitted
     {
         CorrelationId = correlationId;
     }
+    public Guid CorrelationId { get; private set; }
     public Guid OrderId { get; set; }
-
+    
     public int Price { get; set; }
 
     public Guid UserId { get; set; }
-    public Guid CorrelationId { get; set; }
 }

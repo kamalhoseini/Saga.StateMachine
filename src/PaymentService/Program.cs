@@ -22,7 +22,6 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 });
-builder.Services.AddMassTransitHostedService();
 
 var app = builder.Build();
 

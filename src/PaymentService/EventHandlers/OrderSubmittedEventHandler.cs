@@ -16,17 +16,19 @@ public class OrderSubmittedEventHandler : IConsumer<IOrderSubmitted>
     {
         if (context.Message.Price < 1000)
         {
-            await _publishEndpoint.Publish<IOrderAccepted>(new
+            await _publishEndpoint.Publish<IOrderAccepted>(new OrderAccepted(context.Message.CorrelationId)
             {
                 OrderId = context.Message.OrderId
             });
         }
         else
         {
-            await _publishEndpoint.Publish<IOrderRejected>(new
+
+            await _publishEndpoint.Publish<IOrderRejected>(new OrderRejected(context.Message.CorrelationId)
             {
                 OrderId = context.Message.OrderId,
-                Reason = "You don't have enough money"
+                Reason = "You don't have enough credit"
+
             });
         }
     }

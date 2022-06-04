@@ -7,9 +7,9 @@ public class OrderRejected : IOrderRejected
     {
         CorrelationId = correlationId;
     }
-    public Guid CorrelationId { get; init; }
+    public Guid CorrelationId { get; private set; }
 
-    public Guid OrderId { get; }
+    public Guid OrderId { get; set; }
 
-    public string? Reason { get; }
+    public string? Reason { get; set; }
 }

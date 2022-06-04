@@ -27,7 +27,9 @@ internal class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, G
             OrderDate = DateTime.UtcNow
         };
         _context.Orders.Add(order);
-        await _context.SaveChangesAsync(cancellationToken);
+        
+        await _context.SaveChangesAsync();
+        
         await _publishEndpoint.Publish<IOrderStarted>(new OrderStarted()
         {
             OrderId = request.OrderId,

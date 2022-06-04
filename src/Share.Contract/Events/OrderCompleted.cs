@@ -7,7 +7,7 @@ public class OrderCompleted : IOrderCompleted
     {
         CorrelationId = correlationId;
     }
-    public Guid CorrelationId { get; init; }
+    public Guid CorrelationId { get; private set; }
 
-    public Guid OrderId { get; }
+    public Guid OrderId { get; set; }
 }

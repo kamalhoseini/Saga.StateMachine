@@ -5,9 +5,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OrderService.Saga;
 
-[Keyless]
+//[Keyless]
 public class OrderState : SagaStateMachineInstance
 {
+    [Key]
     public Guid CorrelationId { get; set; }
     public string CurrentState { get; set; } = default!;
     public Guid OrderId { get; set; }

@@ -7,5 +7,5 @@ public interface IOrderContext
 {
     public DbSet<Order> Orders { get; }
 
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

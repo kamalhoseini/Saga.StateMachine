@@ -11,8 +11,9 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<OrderContext>(options =>
-    options.UseNpgsql(connectionString,
+    options.UseSqlServer(connectionString,
     optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(OrderContext).Assembly.FullName))
 );
 builder.Services.AddScoped<IOrderContext>(provider => provider.GetService<OrderContext>()!);
@@ -33,7 +34,7 @@ builder.Services.AddMassTransit(x =>
          repo.ConcurrencyMode = ConcurrencyMode.Pessimistic; // / or use Pessimistic
          repo.AddDbContext<DbContext, OrderContext>((provider, builder) =>
          {
-             builder.UseNpgsql(connectionString,
+             builder.UseSqlServer(connectionString,
              optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(OrderContext).Assembly.FullName));
          });
      });
@@ -49,7 +50,6 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 });
-builder.Services.AddMassTransitHostedService();
 
 // Add controllers
 builder.Services.AddControllers();

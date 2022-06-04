@@ -11,6 +11,7 @@ public class OrderCompletedEventHandler : IConsumer<IOrderCompleted>
     }
     public async Task Consume(ConsumeContext<IOrderCompleted> context)
     {
-
+        Console.WriteLine($"Order {context.Message.OrderId} accepted");
+        await Task.CompletedTask;
     }
 }

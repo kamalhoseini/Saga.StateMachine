@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<OrderContext>(options =>
-    options.UseSqlServer(connectionString,
+    options.UseNpgsql(connectionString,
     optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(OrderContext).Assembly.FullName))
 );
 builder.Services.AddScoped<IOrderContext>(provider => provider.GetService<OrderContext>()!);
@@ -34,7 +34,7 @@ builder.Services.AddMassTransit(x =>
          repo.ConcurrencyMode = ConcurrencyMode.Optimistic; // / or use Pessimistic
          repo.AddDbContext<DbContext, OrderContext>((provider, builder) =>
          {
-             builder.UseSqlServer(connectionString,
+             builder.UseNpgsql(connectionString,
              optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(OrderContext).Assembly.FullName));
          });
      });

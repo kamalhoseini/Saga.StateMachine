@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderService.Infrastructure.Persistence;
@@ -11,13 +12,14 @@ using OrderService.Infrastructure.Persistence;
 namespace OrderService.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    partial class OrderContextModelSnapshot : ModelSnapshot
+    [Migration("20220604070833_Remove row version from OrderState table")]
+    partial class RemoverowversionfromOrderStatetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -45,6 +47,7 @@ namespace OrderService.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("OrderService.Saga.OrderState", b =>
                 {
                     b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("CurrentState")
@@ -62,6 +65,8 @@ namespace OrderService.Infrastructure.Persistence.Migrations
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
+
+                    b.HasKey("CorrelationId");
 
                     b.ToTable("OrderStates");
                 });

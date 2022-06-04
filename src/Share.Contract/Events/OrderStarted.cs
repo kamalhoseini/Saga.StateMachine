@@ -1,9 +1,13 @@
-﻿namespace Share.Contract.Messages;
-public interface IOrderSubmitted
+﻿using Share.Contract.Messages;
+
+namespace Share.Contract.Events;
+public class OrderStarted : IOrderStarted
 {
-    public Guid CorrelationId { get; set; }
     
     public Guid OrderId { get; set; }
+
     public int Price { get; set; }
+
     public Guid UserId { get; set; }
+
 }

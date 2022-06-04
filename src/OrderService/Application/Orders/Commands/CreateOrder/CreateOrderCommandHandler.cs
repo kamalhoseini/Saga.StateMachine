@@ -2,6 +2,7 @@
 using MediatR;
 using OrderService.Application.Interfaces;
 using OrderService.Domain.Entities;
+using Share.Contract.Events;
 using Share.Contract.Messages;
 
 namespace OrderService.Application.Orders.Commands.CreateOrder;
@@ -27,12 +28,11 @@ internal class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, G
         };
         _context.Orders.Add(order);
         await _context.SaveChangesAsync(cancellationToken);
-
-        await _publishEndpoint.Publish<IOrderSubmitted>(new
+        await _publishEndpoint.Publish<IOrderStarted>(new OrderStarted()
         {
-            request.OrderId,
-            request.UserId,
-            request.Price
+            OrderId = request.OrderId,
+            UserId = request.UserId,
+            Price = request.Price
         });
 
         return order.Id;

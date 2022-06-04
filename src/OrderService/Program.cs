@@ -6,6 +6,7 @@ using OrderService.Application.Interfaces;
 using OrderService.Application.Orders.EventHandlers;
 using OrderService.Infrastructure.Persistence;
 using OrderService.Saga;
+using Share.Contract.Messages;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ var massTransitConfig = builder.Configuration.GetSection("MassTransit");
 // MassTraansit configuration
 builder.Services.AddMassTransit(x =>
 {
+    x.AddRequestClient<IOrderSubmitted>();
+
     x.AddConsumer<OrderCompletedEventHandler>();
     x.AddConsumer<OrderRejectedEventHandler>();
 

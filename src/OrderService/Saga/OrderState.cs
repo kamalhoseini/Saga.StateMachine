@@ -1,11 +1,8 @@
-﻿using Automatonymous;
-using MassTransit;
-using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
 using System.ComponentModel.DataAnnotations;
 
 namespace OrderService.Saga;
 
-//[Keyless]
 public class OrderState : SagaStateMachineInstance
 {
     [Key]
@@ -15,6 +12,6 @@ public class OrderState : SagaStateMachineInstance
     public Guid UserId { get; set; }
     public int Price {get;set;}
     public DateTime DateTime { get; set; }
-    //[Timestamp]
-    //public byte[]? RowVersion { get; set; }
+    [Timestamp]
+    public byte[]? RowVersion { get; set; }
 }

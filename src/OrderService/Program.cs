@@ -31,7 +31,7 @@ builder.Services.AddMassTransit(x =>
     x.AddSagaStateMachine<OrderStateMachine, OrderState>()
     .EntityFrameworkRepository(repo =>
      {
-         repo.ConcurrencyMode = ConcurrencyMode.Pessimistic; // / or use Pessimistic
+         repo.ConcurrencyMode = ConcurrencyMode.Optimistic; // / or use Pessimistic
          repo.AddDbContext<DbContext, OrderContext>((provider, builder) =>
          {
              builder.UseSqlServer(connectionString,

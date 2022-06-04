@@ -1,5 +1,4 @@
-﻿using Automatonymous;
-using MassTransit;
+﻿using MassTransit;
 using Share.Contract.Events;
 using Share.Contract.Messages;
 
@@ -7,7 +6,7 @@ namespace OrderService.Saga;
 
 public class OrderStateMachine : MassTransitStateMachine<OrderState>
 {
-    public OrderStateMachine()
+    public OrderStateMachine(ILogger<OrderStateMachine> logger)
     {
         InstanceState(c => c.CurrentState);
 
@@ -22,7 +21,7 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
                 x.Saga.Price = x.Message.Price;
                 x.Saga.UserId = x.Message.UserId;
             })
-            .Then(x => Console.WriteLine($"Order {x.Saga.OrderId} started"))
+            .Then(x => logger.LogInformation($"Order {x.Saga.OrderId} started"))
             .TransitionTo(Submitted)
             .Publish(context => new OrderSubmitted(context.Saga.CorrelationId)
             {
@@ -33,7 +32,7 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
 
         During(Submitted,
              When(OrderAccepted)
-             .Then(x => Console.WriteLine($"Order {x.Saga.OrderId} accepted"))
+             .Then(x => logger.LogInformation($"Order {x.Saga.OrderId} accepted"))
              .TransitionTo(Completed)
              .Publish(context => new OrderCompleted(context.Saga.CorrelationId)
              {
@@ -43,7 +42,7 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
 
         During(Submitted,
                When(OrderRejected)
-               .Then(x => Console.WriteLine($"Order {x.Saga.OrderId} rejected! because {x.Message.Reason}"))
+               .Then(x => logger.LogInformation($"Order {x.Saga.OrderId} rejected! because {x.Message.Reason}"))
                .TransitionTo(Rejected));
         //.Finalize()); //set current state to final
 

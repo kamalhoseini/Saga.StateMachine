@@ -1,4 +1,4 @@
-# Saga.StateMachine
+# Saga State Machine
 
 ## Learn about Saga State Machine
 * [Saga distributed transactions pattern](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/saga/saga)

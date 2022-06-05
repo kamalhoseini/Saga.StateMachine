@@ -2,7 +2,7 @@
 
 ## Learn about Saga State Machine
 
-[Saga | MassTransit)](https://masstransit-project.com/usage/sagas/automatonymous.html#introduction)
+[(Saga | MassTransit)](https://masstransit-project.com/usage/sagas/automatonymous.html#introduction)
 
 ## Technologies
 

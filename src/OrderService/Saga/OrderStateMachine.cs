@@ -50,8 +50,7 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
         //     repository removes completed state machine instances.
         // SetCompletedWhenFinalized();
 
-        // npgsql
-        // row version
+        
     }
 
     public State Started { get; private set; } = default!;

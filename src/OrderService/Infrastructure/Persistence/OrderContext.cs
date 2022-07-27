@@ -17,15 +17,15 @@ public class OrderContext : DbContext, IOrderContext
     {
         //In Npgsql, you are responsible for handling concurrency
         //This means that after loading an entity instance - to change its concurrency token before saving it to the database
-        foreach (var entry in ChangeTracker.Entries<OrderState>())
-        {
-            switch (entry.State)
-            {
-                case EntityState.Modified:
-                    entry.Entity.ConcurrencyToken ++;
-                    break;
-            }
-        }
+        //foreach (var entry in ChangeTracker.Entries<OrderState>())
+        //{
+        //    switch (entry.State)
+        //    {
+        //        case EntityState.Modified:
+        //            entry.Entity.ConcurrencyToken ++;
+        //            break;
+        //    }
+        //}
         return base.SaveChangesAsync(cancellationToken);
     }
 

@@ -39,7 +39,7 @@ namespace OrderService.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("OrderService.Saga.OrderState", b =>
@@ -50,7 +50,6 @@ namespace OrderService.Infrastructure.Persistence.Migrations
 
                     b.Property<int>("ConcurrencyToken")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("integer");
 
                     b.Property<string>("CurrentState")
@@ -73,7 +72,7 @@ namespace OrderService.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CorrelationId");
 
-                    b.ToTable("OrderStates", (string)null);
+                    b.ToTable("OrderStates");
                 });
 #pragma warning restore 612, 618
         }

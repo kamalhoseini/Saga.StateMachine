@@ -1,5 +1,4 @@
 using MassTransit;
-using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Interfaces;
@@ -25,7 +24,7 @@ builder.Services.AddMassTransit(x =>
 {
     x.AddRequestClient<IOrderSubmitted>();
 
-    x.AddConsumer<OrderCompletedEventHandler>();
+    x.AddConsumer<OrderAcceptedEventHandler>();
     x.AddConsumer<OrderRejectedEventHandler>();
 
     x.AddSagaStateMachine<OrderStateMachine, OrderState>()
@@ -53,6 +52,8 @@ builder.Services.AddMassTransit(x =>
 
 // Add controllers
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Add mediatr for assembly
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
@@ -67,9 +68,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 

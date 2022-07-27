@@ -12,8 +12,8 @@ using OrderService.Infrastructure.Persistence;
 namespace OrderService.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    [Migration("20220604163800_Set index on CorrelationId in OrderState")]
-    partial class SetindexonCorrelationIdinOrderState
+    [Migration("20220727133539_Add OrderState")]
+    partial class AddOrderState
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,7 +52,6 @@ namespace OrderService.Infrastructure.Persistence.Migrations
 
                     b.Property<int>("ConcurrencyToken")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("integer");
 
                     b.Property<string>("CurrentState")

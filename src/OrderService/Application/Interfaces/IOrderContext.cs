@@ -7,7 +7,6 @@ namespace OrderService.Application.Interfaces;
 public interface IOrderContext
 {
     public DbSet<Order> Orders { get; }
-    public DbSet<OrderState> OrderStates { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);   
 }

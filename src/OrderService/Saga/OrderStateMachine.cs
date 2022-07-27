@@ -36,7 +36,6 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
              When(OrderRejectedEvent)
                .Then(x => logger.LogInformation($"Order {x.Saga.OrderId} rejected! because {x.Message.Reason}"))
                .TransitionTo(Rejected)
-            , Ignore(OrderSubmittedEvent)
          );
         //.Finalize()); //set current state to final
 

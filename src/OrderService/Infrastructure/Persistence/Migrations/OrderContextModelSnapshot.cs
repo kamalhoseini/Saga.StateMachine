@@ -8,7 +8,7 @@ using OrderService.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace OrderService.Infrastructure.Persistence.Migrations
+namespace OrderService.infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(OrderContext))]
     partial class OrderContextModelSnapshot : ModelSnapshot
@@ -45,11 +45,9 @@ namespace OrderService.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("OrderService.Saga.OrderState", b =>
                 {
                     b.Property<Guid>("CorrelationId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int>("ConcurrencyToken")
-                        .IsConcurrencyToken()
                         .HasColumnType("integer");
 
                     b.Property<string>("CurrentState")
@@ -70,9 +68,7 @@ namespace OrderService.Infrastructure.Persistence.Migrations
 
                     b.HasKey("CorrelationId");
 
-                    b.HasIndex("CorrelationId");
-
-                    b.ToTable("OrderStates");
+                    b.ToTable("OrderState");
                 });
 #pragma warning restore 612, 618
         }

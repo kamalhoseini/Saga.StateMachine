@@ -28,15 +28,12 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<OrderRejectedEventHandler>();
 
     x.AddSagaStateMachine<OrderStateMachine, OrderState>()
-    .EntityFrameworkRepository(repo =>
-     {
-         repo.ConcurrencyMode = ConcurrencyMode.Optimistic; // / or use Pessimistic
-         repo.AddDbContext<DbContext, OrderContext>((provider, builder) =>
-         {
-             builder.UseNpgsql(connectionString,
-             optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(OrderContext).Assembly.FullName));
-         });
-     });
+    .EntityFrameworkRepository(r =>
+    {
+        r.ExistingDbContext<OrderContext>();
+        r.UsePostgres();
+    });
+
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(massTransitConfig["Host"],

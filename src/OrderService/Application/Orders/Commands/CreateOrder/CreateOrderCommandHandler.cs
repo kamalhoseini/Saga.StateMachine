@@ -20,16 +20,16 @@ internal class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, G
     public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         var order = new Order
-        {
-            Id = request.OrderId,
-            Price = request.Price,
-            UserId = request.UserId,
-            OrderDate = DateTime.UtcNow
-        };
+       (
+            request.OrderId,
+            request.UserId,
+            request.Price,
+            DateTime.UtcNow
+        );
         _context.Orders.Add(order);
-        
+
         await _context.SaveChangesAsync();
-        
+
         await _publishEndpoint.Publish<IOrderStarted>(new OrderStarted()
         {
             OrderId = request.OrderId,

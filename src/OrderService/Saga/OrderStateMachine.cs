@@ -6,6 +6,9 @@ namespace OrderService.Saga;
 
 public class OrderStateMachine : MassTransitStateMachine<OrderState>
 {
+    /// <summary>
+    /// When using .Publish(event) in a During() section, which does not raise an event that is tracked in the next step..!!!!!!!!!
+    /// </summary>
     public OrderStateMachine(ILogger<OrderStateMachine> logger)
     {
         InstanceState(c => c.CurrentState);
@@ -32,7 +35,7 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
         During(Submitted,
              When(OrderAcceptedEvent)
                .Then(x => logger.LogInformation($"Order {x.Saga.OrderId} accepted"))
-               .TransitionTo(Completed),                
+               .TransitionTo(Completed),
              When(OrderRejectedEvent)
                .Then(x => logger.LogInformation($"Order {x.Saga.OrderId} rejected! because {x.Message.Reason}"))
                .TransitionTo(Rejected)
@@ -45,19 +48,20 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
     }
     private void ConfigureCorrelationIds()
     {
+        // Add only events that are in the When() section of the state machine !!!!!!!!!!!!!!!!!!!
         Event(() => OrderStartedEvent, x => x.CorrelateById(x => x.Message.OrderId));
         Event(() => OrderAcceptedEvent, x => x.CorrelateById(x => x.Message.CorrelationId));
         Event(() => OrderRejectedEvent, x => x.CorrelateById(x => x.Message.CorrelationId));
     }
 
-    public State Started { get; private set; } = default!;
-    public State Submitted { get; private set; } = default!;
-    public State Accepted { get; private set; } = default!;
-    public State Completed { get; private set; } = default!;
-    public State Rejected { get; private set; } = default!;
-    public Event<IOrderStarted> OrderStartedEvent { get; set; } = default!;
-    public Event<IOrderSubmitted> OrderSubmittedEvent { get; set; } = default!;
-    public Event<IOrderAccepted> OrderAcceptedEvent { get; set; } = default!;
-    public Event<IOrderRejected> OrderRejectedEvent { get; set; } = default!;
+    public State Started { get; } = default!;
+    public State Submitted { get; } = default!;
+    public State Accepted { get; } = default!;
+    public State Completed { get; } = default!;
+    public State Rejected { get; } = default!;
+    public Event<IOrderStarted> OrderStartedEvent { get; } = default!;
+    public Event<IOrderSubmitted> OrderSubmittedEvent { get; } = default!;
+    public Event<IOrderAccepted> OrderAcceptedEvent { get; } = default!;
+    public Event<IOrderRejected> OrderRejectedEvent { get; } = default!;
 
 }

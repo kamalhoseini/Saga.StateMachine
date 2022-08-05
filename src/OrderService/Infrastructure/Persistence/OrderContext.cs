@@ -1,17 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit.EntityFrameworkCoreIntegration;
+using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Interfaces;
 using OrderService.Domain.Entities;
 using OrderService.Saga;
 
 namespace OrderService.Infrastructure.Persistence;
 
-public class OrderContext : DbContext, IOrderContext
+public class OrderContext : SagaDbContext/*, DbContext*/, IOrderContext
 {
     public OrderContext(DbContextOptions<OrderContext> options)
     : base(options)
     { }
+    protected override IEnumerable<ISagaClassMap> Configurations
+    {
+        get { yield return new OrderStateMap(); }
+    }
+
     public DbSet<Order> Orders => Set<Order>();
-    public DbSet<OrderState> OrderStates => Set<OrderState>();
+   // public DbSet<OrderState> OrderStates => Set<OrderState>();
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -31,15 +37,16 @@ public class OrderContext : DbContext, IOrderContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<OrderState>()
-                    .HasKey(c => c.CorrelationId);
+        base.OnModelCreating(modelBuilder);
+        //modelBuilder.Entity<OrderState>()
+        //            .HasKey(c => c.CorrelationId);
 
-        modelBuilder.Entity<OrderState>()
-                    .HasIndex(c => c.CorrelationId);
+        //modelBuilder.Entity<OrderState>()
+        //            .HasIndex(c => c.CorrelationId);
 
-        modelBuilder.Entity<OrderState>()
-                    .Property(p => p.ConcurrencyToken)
-                    .IsConcurrencyToken();
+        //modelBuilder.Entity<OrderState>()
+        //            .Property(p => p.ConcurrencyToken)
+        //            .IsConcurrencyToken();
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
